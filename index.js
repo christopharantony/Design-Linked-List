@@ -14,7 +14,22 @@ const Node = function ({ val = null, prev = null, next = null }) {
  * @param {number} index
  * @return {number}
  */
-MyLinkedList.prototype.get = function (index) {};
+MyLinkedList.prototype.get = function (index) {
+  if (!(index < this.length)) return; // return undefined for invalid index
+
+  const isFirstHalf = index < this.length / 2;
+  let node = isFirstHalf ? this.head : this.tail;
+
+  const initializor = isFirstHalf ? 0 : this.length - 1;
+
+  for (
+    let i = initializor;
+    i < this.length;
+    node = isFirstHalf ? node.next : node.prev, isFirstHalf ? i++ : i--
+  ) {
+    if (i === index) return node.val;
+  }
+};
 
 /**
  * @param {number} val
@@ -77,6 +92,7 @@ obj.addAtHead(1);
 obj.addAtHead(2);
 obj.addAtHead(3);
 obj.addAtTail(0);
+console.log("obj.get(2)", obj.get(2));
 
 if (obj.length) {
   // Ascending iterator
